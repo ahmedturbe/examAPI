@@ -15,23 +15,6 @@ class ActorController extends Controller
         $this->middleware('auth:api');
     }
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-       //Return all the actors with every movie he acting in
-        return Actor::with('movies')->paginate(3);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreActorRequest $request)

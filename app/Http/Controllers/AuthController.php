@@ -82,4 +82,19 @@ class AuthController extends Controller
             ]
         ]);
     }
+    public function favorites()
+    {
+        $user = User::find(2);
+        return response()->json([
+            'favorites' => $user->favorites,
+            'follows' => $user->follows
+        ]);
+    }
+    public function follows()
+    {
+        $user = User::find(2);
+        return response()->json([
+            'follows' => $user->follows
+        ]);
+    }
 }

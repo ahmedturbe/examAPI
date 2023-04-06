@@ -5,23 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Favorite extends Model
+class Follow extends Model
 {
     use HasFactory;
-    protected $table = 'favorites';
+    protected $table = 'follows';
     protected $fillable = [
-        'user_id',
-        'favoritable_id',
-        'favoritable_type',
+        'followable_id',
+        'followable_type',
         'movie_id'
     ];
     public function movies()
     {
-        return $this->morphedByMany('App\Movie', 'favoritable');
+        return $this->morphedByMany('App\Movie', 'followable');
     }
     public function users()
     {
-        return $this->morphedByMany('App\User', 'favoritable');
+        return $this->morphedByMany('App\User', 'followable');
     }
-
 }

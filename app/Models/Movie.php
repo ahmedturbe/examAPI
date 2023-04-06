@@ -25,4 +25,13 @@ class Movie extends Model
     public function actors() {
         return $this->belongsToMany(Actor::class, 'actor_movie', 'movie_id','actor_id');
     }
+    public function favoritedBy()
+    {
+        return $this->morphToMany(User::class, 'favoritable', 'favorites')->withTimestamps();
+    }
+    public function followedBy()
+    {
+        return $this->morphToMany(User::class, 'followable', 'follows')->withTimestamps();
+    }
+
 }

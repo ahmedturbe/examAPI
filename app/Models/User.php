@@ -6,7 +6,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-//use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
@@ -59,7 +58,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-    public function favorites(){
-        return $this->hasMany(Favorite::class);
+    public function favorites()
+    {
+        return $this->morphToMany(Movie::class, 'favoritable', 'favorites')->withTimestamps();
     }
+    public function follows()
+    {
+        return $this->morphToMany(Movie::class, 'followable', 'follows')->withTimestamps();
+    }
+
+
 }

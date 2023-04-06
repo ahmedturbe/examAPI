@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Api\V1;
-use App\Http\Requests\RemoveFavoriteRequest;
 use App\Http\Requests\StoreFavoriteRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Favorite;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Movie;
 
 class FavoriteController extends Controller
 {
@@ -14,20 +15,15 @@ class FavoriteController extends Controller
         $this->middleware('auth:api');
     }
     public function store(StoreFavoriteRequest $request) {
-         $favorite = new Favorite();
-         $favorite->movie_id = $request->movie_id;
-         $favorite->user_id = auth()->user()->id;
-         $favorite->save();
+        $user = User::find($request->user_id);
+        $movie = Movie::find($request->movie_id);
+        $user->favorites()->attach($movie);
          return "Movie added as favorite";
      }
-     public function destroy(RemoveFavoriteRequest $request){
-       $movie_id = $request->movie_id;
-       $user_id = auth()->user()->id;
-       //dd($user_id);
-        $favorite = Favorite::where('movie_id', $movie_id)->where('user_id', $user_id)->delete();
-
-            return "Movie removed from favorites";
-
-
+     public function destroy(StoreFavoriteRequest $request){
+        $user = User::find($request->user_id);
+        $movie = Movie::find($request->movie_id);
+        $user->favorites()->detach($movie);
+          return "Movie removed from favorites";
      }
 }
